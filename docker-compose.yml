@@ -1,0 +1,13 @@
+services:
+  coredns:
+    image: coredns/coredns:latest  # 使用するCoreDNSのイメージ
+    container_name: my_coredns_server # コンテナ名 (任意)
+    ports:
+      - "53:53/tcp"  # TCPポート53番をホストとコンテナでマッピング
+      - "53:53/udp"  # UDPポート53番をホストとコンテナでマッピング
+    volumes:
+      - ./corefile/Corefile:/Corefile  # ホストのCorefileをコンテナ内の/Corefileにマウント
+    command: -conf /Corefile          # CoreDNS起動時に読み込む設定ファイルを指定
+    restart: unless-stopped           # コンテナが停止した場合、手動で停止しない限り再起動
+    # networks: # 必要に応じてネットワーク設定を追加
+    #   - my_custom_network
